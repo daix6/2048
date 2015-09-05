@@ -67,14 +67,13 @@ gulp.task('watch', function() {
 });
 
 gulp.task('clean', function() {
-  del([
+  return del([
     'dist/',
     '.publish/'
   ]);
-  return;
 });
 
-gulp.task('build', ['clean', 'jade', 'less', 'javascript']);
+gulp.task('build', ['jade', 'less', 'javascript']);
 
 function server(done) {
   http.createServer(

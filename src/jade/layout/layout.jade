@@ -1,9 +1,13 @@
 doctype
 html
   head
+    title Shawn's 2048
     link(rel='stylesheet' href='./css/main.css')
   body
     .container
-      block header
-      block game
+      .header
+        block header
+      .game-container
+        block game
+
     script(src='./js/bundle.js' type='text/javascript')
