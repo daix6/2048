@@ -88,7 +88,7 @@ function server(done) {
 
 gulp.task('server', ['build'], server);
 
-gulp.task('before-deploy', function() {
+gulp.task('before-deploy', ['clean'], function() {
   deploying = true;
   return;
 })
