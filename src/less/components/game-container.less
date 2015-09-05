@@ -1,0 +1,40 @@
+.game-container {
+  position: relative;
+
+  width: @pc-width;
+  height: @pc-width;
+  margin-top: 20px;
+  padding: @padding;
+
+  overflow: visible;
+  background-color: #8f7a66;
+}
+
+.grid, .numbers {
+  position: absolute;
+  left: @padding;
+  top: @padding;
+}
+
+.row div {
+  float: left;
+
+  width: 125px;
+  height: 125px;
+
+  margin-right: @padding;
+  margin-bottom: @padding;
+  border-radius: 10px;
+
+  &:last-child {
+    margin: 0;
+  }
+}
+
+.row:last-child div {
+  margin-bottom: 0;
+}
+
+.grow div {
+  background-color: lighten(#8f7a66, 10%);
+}
