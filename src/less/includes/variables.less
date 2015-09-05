@@ -1,0 +1,36 @@
+// font-size
+@font-size-root: 16px;
+
+@padding: 10px;
+
+//===== For PC
+@pc-width: 550px;
+
+//=== header
+@pc-header-height: 120px;
+
+//= title
+@pc-title-width: @pc-header-height;
+@pc-title-height: @pc-title-width;
+@pc-title-h1: @font-size-root * 1.25;
+@pc-title-h2: @font-size-root * 3;
+@pc-title-padding: (@pc-title-height - @pc-title-h1 - @pc-title-h2) / 2 0;
+
+//= widget
+@pc-widget-left: @pc-title-width + @padding;
+@pc-widget-width: @pc-width - @pc-widget-left;
+@pc-widget-height: @pc-header-height;
+
+// score and best
+@pc-score-width: (@pc-widget-width - @padding) / 2;
+@pc-score-height: 70px;
+@pc-score-h1: @font-size-root;
+@pc-score-h2: @font-size-root * 2;
+@pc-score-h1-margin: 5px;
+@pc-score-padding: (@pc-score-height - @pc-score-h1 - @pc-score-h1-margin - @pc-score-h2) / 2 0;
+
+// retry
+@pc-retry-width: @pc-widget-width;
+@pc-retry-height: @pc-widget-height - @pc-score-height - @padding;
+@pc-retry-h1: @font-size-root * 1.5;
+@pc-retry-padding: (@pc-retry-height - @pc-retry-h1) / 2 0;
