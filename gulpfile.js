@@ -40,13 +40,13 @@ gulp.task('eslint', function() {
   return gulp.src('./src/js/**/*.js')
     .pipe($.eslint())
     .pipe($.eslint.format())
-    .pipe($.eslint.failAfterError())
+    .pipe($.eslint.failOnError())
     .on('error', $.util.log);
 });
 
 gulp.task('javascript', ['eslint'], function() {
   return browserify({
-      entries: './src/js/main.js',
+      entries: './src/js/app.js',
       debug: true
     })
     .bundle()
