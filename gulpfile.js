@@ -28,7 +28,7 @@ gulp.task('less', function() {
                 path.join(__dirname, 'src', 'less', 'components')]
       }))
       .pipe($.autoprefixer({
-        browsers: ['last 2 versions']
+        browsers: ['last 4 versions']
       }))
       .pipe($.if(deploying, $.minifyCss()))
     .pipe($.sourcemaps.write())

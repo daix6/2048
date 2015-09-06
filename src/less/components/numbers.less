@@ -4,13 +4,12 @@
 }
 
 .util-pos(@x, @y) {
-  transform: translate(@y * 125px + @y * @padding, @x * 125px + @x * @padding);
+  left: @y * 125px + @y * @padding;
+  top: @x * 125px + @x * @padding;
 }
 
 .numbers div {
   position: absolute;
-  left: 0;
-  top: 0;
 
   width: 125px;
   height: 125px;

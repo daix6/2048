@@ -42,29 +42,20 @@ module.exports = (function() {
         var pawn = self.grid.getPawn(x, y);
 
         if (pawn) {
-          var dest = pawn.getDest(offset); // {x:, y:}
-          var next = self.grid.getPawn(dest.x + offset.x, dest.y + offset.y); // Pawn
+          var dest = pawn.getDest(offset);
+          var next = self.grid.getPawn(dest.x + offset.x, dest.y + offset.y);
 
           if (next && next.value === pawn.value && !next.merged) {
             var mergePawn = new Pawn(next.x, next.y, next.value * 2, self.grid);
             mergePawn.merged = true;
 
-            self.grid.removePawn(next.x, next.y);
-            self.grid.removePawn(pawn.x, pawn.y);
+            self.grid.movePawn(pawn, next.x, next.y);
+            self.grid.movePawn(next, next.x, next.y);
             self.grid.insertPawn(mergePawn);
             self.score += mergePawn.value;
           } else
             self.grid.movePawn(pawn, dest.x, dest.y);
         }
-      });
-    });
-
-    tranverse.x.forEach(function(x) {
-      tranverse.y.forEach(function(y) {
-        var pawn = self.grid.getPawn(x, y);
-
-        if (pawn)
-          pawn.merged = false;
       });
     });
 

@@ -6,6 +6,9 @@ module.exports = (function() {
     this.y = y;
     this.value = value;
     this.grid = gr;
+
+    this.merged = false;
+    this.previous = null;
   }
 
   Pawn.prototype.getGrid = function() {

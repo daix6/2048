@@ -2,6 +2,7 @@ module.exports = (function() {
   'use strict';
 
   var Pawn = require('./pawn.js');
+  var util = require('./util.js');
 
   function Grid() {
     this.size = 4;
@@ -62,6 +63,7 @@ module.exports = (function() {
 
   Grid.prototype.movePawn = function(p, x, y) {
     this.nodes[p.x][p.y] = null;
+    p.previous = {x: p.x, y: p.y};
     p.x = x;
     p.y = y;
     this.nodes[x][y] = p;
@@ -83,12 +85,55 @@ module.exports = (function() {
         if (this.nodes[i][j]) {
           var node = this.nodes[i][j];
           var p = document.createElement('div');
-          p.setAttribute('class', 'p-' + node.x + '-' + node.y + ' ' + 'c-' + node.value);
+          p.setAttribute('class', 'c-' + node.value);
           if (p.textContent)
             p.textContent = node.value;
           else
             p.innerText = node.value;
+
+          if (node.merged) {
+            util.addClass(p, 'p-' + node.x + '-' + node.y);
+            util.addClass(p, 'merged');
+          } else if (node.previous) {
+            util.addClass(p, 'p-' + node.previous.x + '-' + node.previous.y);
+            if (node.previous.x !== node.x && node.previous.y === node.y) {
+              var dx = node.x > node.previous.x ? 5 : -5;
+              var topb = node.previous.x * 135;
+              var tope = node.x * 135;
+
+              var loop = function() {
+                topb = topb + dx;
+                p.style.top = topb + 'px';
+                if (topb !== tope)
+                  window.requestAnimationFrame(loop);
+                else
+                  p.setAttribute('class', p.getAttribute('class').replace(/p-\d-\d/, 'p-' + node.x + '-' + node.y));
+              };
+              loop();
+            } else if (node.previous.x !== node.x && node.previous.y !== node.y) {
+              var dy = node.y > node.previous.y ? 5 : -5;
+              var leftb = node.previous.y * 135;
+              var lefte = node.y * 135;
+
+              var loop = function() {
+                leftb = leftb + dy;
+                p.style.left = leftb + 'px';
+                if (leftb !== lefte)
+                  window.requestAnimationFrame(loop);
+                else
+                  p.setAttribute('class', p.getAttribute('class').replace(/p-\d-\d/, 'p-' + node.x + '-' + node.y));
+              };
+              loop();
+            }
+          } else {
+            util.addClass(p, 'p-' + node.x + '-' + node.y);
+            util.addClass(p, 'new');
+          }
+
           container.appendChild(p);
+
+          node.merged = false;
+          node.previous = null;
         }
   };
 

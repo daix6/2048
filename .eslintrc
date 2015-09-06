@@ -8,7 +8,7 @@
     "no-extra-semi": 2,
 
     /* Best Practices */
-    "curly": [2, "multi"],
+    "curly": [1, "multi"],
     "dot-notation": 2,
     "no-alert": 2,
 
