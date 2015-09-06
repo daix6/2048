@@ -1,10 +1,12 @@
 (function() {
   'use strict';
 
-  var Pawn = require('./pawn.js');
   var Grid = require('./grid.js');
+  var Game = require('./game.js');
+  var Handle = require('./handle.js');
 
-  var gr = new Grid();
-  gr.createPawn();
+  var game = new Game(Grid, Handle);
+
+  game.init();
 
 }());

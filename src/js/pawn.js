@@ -8,29 +8,8 @@ module.exports = (function() {
     this.grid = gr;
   }
 
-  Pawn.prototype.isValid = function() {
-    if (this.x < 4 && this.y < 4)
-      return true;
-    return false;
-  };
-
-  Pawn.prototype.getDest = function(dir) {
-    var dx, dy;
-
-    if (dir === 0) {
-      dx = -1;
-      dy = 0;
-    } else if (dir === 1) {
-      dx = 0;
-      dy = -1;
-    } else if(dir === 2) {
-      dx = 1;
-      dy = 0;
-    } else if (dir === 3) {
-      dx = 0;
-      dy = -1;
-    } else
-      return;
+  Pawn.prototype.getGrid = function() {
+    return this.grid;
   };
 
   return Pawn;

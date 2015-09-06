@@ -9,16 +9,40 @@ module.exports = (function() {
     this.nodes = {0: [], 1: [], 2: [], 3: []};
   }
 
+  Grid.prototype.isValid = function(x, y) {
+    return x < this.x && x >= 0 && y < this.y && y >= 0;
+  }
+
+  Grid.prototype.isOccupied = function(x, y) {
+    for (var i = 0, len = this.nodes[x].length; i < len; i++)
+      if (this.nodes[x][i].y === y)
+        return true;
+
+    return false;
+  }
+
   Grid.prototype.createPawn = function() {
     var x = Math.floor(Math.random() * 4);
     var y = Math.floor(Math.random() * 4);
-    var value = Math.floor(Math.random() * 2) === 1 ? 4 : 2;
 
+    while (this.isOccupied(x, y)) {
+      x = Math.floor(Math.random() * 4);
+      y = Math.floor(Math.random() * 4);
+    }
+
+    var value = Math.floor(Math.random() * 2) === 1 ? 4 : 2;
     var p = new Pawn(x, y, value, this);
+
     this.nodes[x].push(p);
 
     this.render();
   };
+
+  Grid.prototype.getPawn = function(x, y) {
+    for (var i = 0, len = this.nodes[x].length; i < len; i++)
+      if (this.nodes[x][i].y === y)
+        return this.nodes[x][i];
+  }
 
   Grid.prototype.render = function() {
     var container = document.getElementsByClassName('numbers')[0];
