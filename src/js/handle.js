@@ -23,6 +23,11 @@ module.exports = (function() {
     return this;
   }
 
+  Handle.prototype.remove = function(event) {
+    this.handler[event] = [];
+    return this;
+  }
+
   Handle.prototype.setUp = function() {
     var that = this;
     var map = {
@@ -39,6 +44,16 @@ module.exports = (function() {
         event.preventDefault();
       }
     });
+
+    var retrys = document.getElementsByClassName('retry');
+    for (var i = 0, len = retrys.length; i < len; i++) {
+      return function(index) {
+        util.addEvent(retrys[index], 'click', function(event) {
+          that.emit('retry');
+          event.preventDefault();
+        });
+      }(i);
+    }
   }
 
   return Handle;

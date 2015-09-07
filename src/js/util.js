@@ -8,6 +8,13 @@ module.exports = (function() {
       ele.attachEvent('on' + event, handler);
   }
 
+  function removeEvent(ele, event, handler) {
+    if (ele.removeEventListener)
+      ele.removeEventListener(event, handler, false);
+    else if (ele.detachEvent)
+      ele.detachEvent('on' + event, handler);
+  }
+
   function getClass(ele) {
     return ele.getAttribute && ele.getAttribute('class') || '';
   }
@@ -37,6 +44,7 @@ module.exports = (function() {
 
   return {
     addEvent: addEvent,
+    removeEvent: removeEvent,
     hasClass: hasClass,
     addClass: addClass,
     removeClass: removeClass

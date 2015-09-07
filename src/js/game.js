@@ -16,6 +16,7 @@ module.exports = (function() {
     this.grid = new Grid();
     this.handle = new Handle();
     this.layout = new Layout();
+    this.best = 0;
   }
 
   Game.prototype.init = function() {
@@ -27,6 +28,8 @@ module.exports = (function() {
     this.layout.render(this);
 
     this.handle.on('move', this.move.bind(this));
+    this.handle.on('retry', this.retry.bind(this));
+    this.handle.on('disable', this.disable.bind(this));
     this.handle.setUp();
   };
 
@@ -58,7 +61,7 @@ module.exports = (function() {
             self.grid.insertPawn(mergePawn);
             self.score += mergePawn.value;
 
-            if (mergePawn.value === 2048)
+            if (mergePawn.value === 128)
               self.win = true;
 
             moved = true;
@@ -73,11 +76,24 @@ module.exports = (function() {
 
     if (moved) {
       self.grid.createPawn();
-      self.layout.render(self);
     } else if (!moved && self.grid.isFull()) {
-      self.layout.renderOver();
+      self.over = true;
     }
+    self.layout.render(self);
   };
+
+
+  Game.prototype.retry = function() {
+    var self = this;
+    self.layout.removeResult();
+    self.init();
+  }
+
+
+  Game.prototype.disable = function() {
+    var self = this;
+    self.handler.remove('move');
+  }
 
   return Game;
 
