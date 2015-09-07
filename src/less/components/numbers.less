@@ -4,19 +4,22 @@
 }
 
 .util-pos(@x, @y) {
-  left: @y * 125px + @y * @padding;
-  top: @x * 125px + @x * @padding;
+  left: @y * @pc-grid-width + @y * @padding;
+  top: @x * @pc-grid-height + @x * @padding;
+
+  transition-property: left, top;
+  transition-duration: 200ms;
 }
 
 .numbers div {
   position: absolute;
 
-  width: 125px;
-  height: 125px;
-  padding: (125px - 48px) / 2 0;
+  width: @pc-grid-width;
+  height: @pc-grid-height;
+  padding: @pc-grid-padding;
 
   text-align: center;
-  border-radius: 10px;
+  border-radius: @padding;
   font-size: @font-size-root * 3;
   line-height: @font-size-root * 3;
 }

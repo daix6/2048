@@ -3,6 +3,7 @@ module.exports = (function() {
 
   var util = require('./util');
   var Pawn = require('./pawn.js');
+  var Layout = require('./layout.js');
 
   var map = {
     0: {x: 0, y: -1},
@@ -11,9 +12,10 @@ module.exports = (function() {
     3: {x: 1, y: 0}
   };
 
-  function Game(Grid, Handle) {
+  function Game(Grid, Handle, Layout) {
     this.grid = new Grid();
     this.handle = new Handle();
+    this.layout = new Layout();
   }
 
   Game.prototype.init = function() {
@@ -22,6 +24,7 @@ module.exports = (function() {
     this.over = false;
 
     this.grid.setUp();
+    this.layout.render(this);
 
     this.handle.on('move', this.move.bind(this));
     this.handle.setUp();
@@ -30,6 +33,7 @@ module.exports = (function() {
   Game.prototype.move = function(dir) {
     var self = this;
     var offset = map[dir];
+    var moved = false;
 
     var tranverse = {x: [0, 1, 2, 3], y: [0, 1, 2, 3]};
     if (offset.x === 1)
@@ -53,14 +57,21 @@ module.exports = (function() {
             self.grid.movePawn(next, next.x, next.y);
             self.grid.insertPawn(mergePawn);
             self.score += mergePawn.value;
-          } else
+
+            moved = true;
+          } else {
+            if (pawn.x !== dest.x || pawn.y !== dest.y)
+              moved = true;
             self.grid.movePawn(pawn, dest.x, dest.y);
+          }
         }
       });
     });
 
-    self.grid.createPawn();
-    self.grid.render();
+    if (moved) {
+      self.grid.createPawn();
+      self.layout.render(self);
+    }
   };
 
   return Game;

@@ -17,6 +17,7 @@
 @number-dark: #776e65;
 
 @padding: 10px;
+@margin: 50px;
 
 //===== For PC
 @pc-width: 550px;
@@ -49,3 +50,8 @@
 @pc-retry-height: @pc-widget-height - @pc-score-height - @padding;
 @pc-retry-h1: @font-size-root * 1.5;
 @pc-retry-padding: (@pc-retry-height - @pc-retry-h1) / 2 0;
+
+//=== Grid
+@pc-grid-width: (@pc-width - 5 * @padding) / 4;
+@pc-grid-height: @pc-grid-width;
+@pc-grid-padding: (@pc-grid-height - @font-size-root * 3) / 2 0;

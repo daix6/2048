@@ -17,7 +17,6 @@ module.exports = (function() {
     }
 
     this.createPawn();
-    this.render();
   }
 
   Grid.prototype.isValid = function(x, y) {
@@ -96,41 +95,15 @@ module.exports = (function() {
             util.addClass(p, 'merged');
           } else if (node.previous) {
             util.addClass(p, 'p-' + node.previous.x + '-' + node.previous.y);
-            if (node.previous.x !== node.x && node.previous.y === node.y) {
-              var dx = node.x > node.previous.x ? 5 : -5;
-              var topb = node.previous.x * 135;
-              var tope = node.x * 135;
-
-              var loop = function() {
-                topb = topb + dx;
-                p.style.top = topb + 'px';
-                if (topb !== tope)
-                  window.requestAnimationFrame(loop);
-                else
-                  p.setAttribute('class', p.getAttribute('class').replace(/p-\d-\d/, 'p-' + node.x + '-' + node.y));
-              };
-              loop();
-            } else if (node.previous.x !== node.x && node.previous.y !== node.y) {
-              var dy = node.y > node.previous.y ? 5 : -5;
-              var leftb = node.previous.y * 135;
-              var lefte = node.y * 135;
-
-              var loop = function() {
-                leftb = leftb + dy;
-                p.style.left = leftb + 'px';
-                if (leftb !== lefte)
-                  window.requestAnimationFrame(loop);
-                else
-                  p.setAttribute('class', p.getAttribute('class').replace(/p-\d-\d/, 'p-' + node.x + '-' + node.y));
-              };
-              loop();
-            }
           } else {
             util.addClass(p, 'p-' + node.x + '-' + node.y);
             util.addClass(p, 'new');
           }
 
           container.appendChild(p);
+
+          if (node.previous)
+            p.setAttribute('class', p.getAttribute('class').replace(/p-\d-\d/, 'p-' + node.x + '-' + node.y));
 
           node.merged = false;
           node.previous = null;
