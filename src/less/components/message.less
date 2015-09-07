@@ -1,0 +1,55 @@
+.message {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 50;
+
+  width: @pc-width;
+  height: @pc-width;
+}
+
+#win, #over {
+  display: none;
+
+  width: @pc-width;
+  height: @pc-width;
+  padding: (@pc-width - @font-size-root * 5 - @margin - @padding * 2) / 2 0;
+
+  text-align: center;
+
+  h2 {
+    font-size: @font-size-root * 3;
+    line-height: @font-size-root * 3;
+    margin-bottom: @margin;
+  }
+
+  button {
+    font-size: @font-size-root * 2;
+    line-height: @font-size-root * 2;
+
+    border: none;
+    padding: @padding;
+  }
+}
+
+#win {
+  color: @number-dark;
+
+  background-color: rgba(255, 255, 255, 0.8);
+
+  button {
+    background-color: @number-dark;
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+#over {
+  color: #faf8ef;
+
+  background-color: rgba(0, 0, 0, 0.8);
+
+  button {
+    background-color: #faf8ef;
+    color: rgba(0, 0, 0, 0.8);
+  }
+}

@@ -3,12 +3,14 @@ extends ./layout/layout.jade
 include ./components/header.jade
 include ./components/grid.jade
 include ./components/numbers.jade
+include ./components/message.jade
 include ./components/footer.jade
 
 block header
   +header
 
 block game
+  +message
   +grid
   +numbers
 

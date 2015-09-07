@@ -30,6 +30,14 @@ module.exports = (function() {
     return false;
   }
 
+  Grid.prototype.isFull = function() {
+    for (var i = 0; i < this.size; i++)
+      for (var j = 0; j < this.size; j++)
+        if (!this.nodes[i][j])
+          return false;
+    return true;
+  }
+
   Grid.prototype.getPawn = function(x, y) {
     if (!this.isValid(x, y))
       return null;
@@ -88,7 +96,7 @@ module.exports = (function() {
           if (p.textContent)
             p.textContent = node.value;
           else
-            p.innerText = node.value;
+            p.innerHTML = node.value;
 
           if (node.merged) {
             util.addClass(p, 'p-' + node.x + '-' + node.y);

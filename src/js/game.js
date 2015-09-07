@@ -58,6 +58,9 @@ module.exports = (function() {
             self.grid.insertPawn(mergePawn);
             self.score += mergePawn.value;
 
+            if (mergePawn.value === 2048)
+              self.win = true;
+
             moved = true;
           } else {
             if (pawn.x !== dest.x || pawn.y !== dest.y)
@@ -71,6 +74,8 @@ module.exports = (function() {
     if (moved) {
       self.grid.createPawn();
       self.layout.render(self);
+    } else if (!moved && self.grid.isFull()) {
+      self.layout.renderOver();
     }
   };
 

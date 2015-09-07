@@ -1,6 +1,8 @@
 module.exports = (function() {
   'use strict';
 
+  var util = require('./util.js');
+
   function Layout() {
     this.score = 0;
     this.win = false;
@@ -8,11 +10,13 @@ module.exports = (function() {
   }
 
   Layout.prototype.render = function(game) {
+    game.grid.render();
     if (game.score && this.score < game.score) {
       this.score = game.score;
       this.renderScore();
     }
-    game.grid.render();
+    if (game.win)
+      this.renderWin();
   }
 
   Layout.prototype.renderScore = function() {
@@ -20,7 +24,19 @@ module.exports = (function() {
     if (eScore.textContent)
       eScore.textContent = this.score;
     else
-      eScore.innerText = this.score;
+      eScore.innerHTML = this.score;
+  }
+
+  Layout.prototype.renderWin = function() {
+    var eWin = document.getElementById('win');
+    eWin.style.display = 'block';
+    util.addClass(eWin, 'result');
+  }
+
+  Layout.prototype.renderOver = function() {
+    var eOver = document.getElementById('over');
+    eOver.style.display = 'block';
+    util.addClass(eOver, 'result');
   }
 
   return Layout;
