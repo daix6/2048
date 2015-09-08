@@ -22,24 +22,24 @@ module.exports = (function() {
   }
 
   Game.prototype.init = function() {
-    var self = this;
+    var that = this;
 
-    self.score = 0;
-    self.win = false;
-    self.over = false;
+    that.score = 0;
+    that.win = false;
+    that.over = false;
 
-    self.grid.setUp();
-    self.layout.render(this);
-    self.layout.renderScore(0);
+    that.grid.setUp();
+    that.layout.render(this);
+    that.layout.renderScore(0);
 
-    self.handle.on('move', this.move.bind(this));
-    self.handle.on('retry', this.retry.bind(this));
-    self.handle.on('disable', this.disable.bind(this));
-    self.handle.setUp();
+    that.handle.on('move', this.move.bind(this));
+    that.handle.on('retry', this.retry.bind(this));
+    that.handle.on('disable', this.disable.bind(this));
+    that.handle.setUp();
   };
 
   Game.prototype.move = function(dir) {
-    var self = this;
+    var that = this;
     var offset = map[dir];
     var moved = false;
 
@@ -51,61 +51,61 @@ module.exports = (function() {
 
     tranverse.x.forEach(function(x) {
       tranverse.y.forEach(function(y) {
-        var pawn = self.grid.getPawn(x, y);
+        var pawn = that.grid.getPawn(x, y);
 
         if (pawn) {
           var dest = pawn.getDest(offset);
-          var next = self.grid.getPawn(dest.x + offset.x, dest.y + offset.y);
+          var next = that.grid.getPawn(dest.x + offset.x, dest.y + offset.y);
 
           if (next && next.value === pawn.value && !next.merged) {
-            var mergePawn = new Pawn(next.x, next.y, next.value * 2, self.grid);
+            var mergePawn = new Pawn(next.x, next.y, next.value * 2, that.grid);
             mergePawn.merged = true;
 
-            self.grid.movePawn(pawn, next.x, next.y);
-            self.grid.movePawn(next, next.x, next.y);
-            self.grid.insertPawn(mergePawn);
-            self.score += mergePawn.value;
+            that.grid.movePawn(pawn, next.x, next.y);
+            that.grid.movePawn(next, next.x, next.y);
+            that.grid.insertPawn(mergePawn);
+            that.score += mergePawn.value;
 
-            if (mergePawn.value === self.aim)
-              self.win = true;
+            if (mergePawn.value === that.aim)
+              that.win = true;
 
             moved = true;
           } else {
             if (pawn.x !== dest.x || pawn.y !== dest.y)
               moved = true;
-            self.grid.movePawn(pawn, dest.x, dest.y);
+            that.grid.movePawn(pawn, dest.x, dest.y);
           }
         }
       });
     });
 
     if (moved) {
-      self.grid.createPawn();
-    } else if (!self.grid.canMove()) {
-      self.over = true;
+      that.grid.createPawn();
+    } else if (!that.grid.canMove()) {
+      that.over = true;
     }
-    self.layout.render(self);
-    self.layout.renderScore(self.score);
+    that.layout.render(that);
+    that.layout.renderScore(that.score);
   };
 
   Game.prototype.retry = function() {
-    var self = this;
+    var that = this;
 
-    self.score = 0;
-    self.win = false;
-    self.over = false;
+    that.score = 0;
+    that.win = false;
+    that.over = false;
 
-    self.layout.removeResult();
-    self.grid.setUp();
-    self.layout.render(this);
-    self.layout.renderScore(0);
+    that.layout.removeResult();
+    that.grid.setUp();
+    that.layout.render(this);
+    that.layout.renderScore(0);
 
-    self.handle.on('move', this.move.bind(this));
+    that.handle.on('move', this.move.bind(this));
   }
 
   Game.prototype.disable = function() {
-    var self = this;
-    self.handle.remove('move');
+    var that = this;
+    that.handle.remove('move');
   }
 
   return Game;

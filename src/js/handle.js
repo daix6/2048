@@ -34,8 +34,20 @@ module.exports = (function() {
       37: 0,
       38: 1,
       39: 2,
-      40: 3
+      40: 3,
+      65: 0,
+      68: 2,
+      87: 1,
+      83: 3,
+      97: 0,
+      119: 1,
+      100: 2,
+      115: 3
     };
+
+    var touchStart = window.navigator.msPointerEnabled ? 'MSPointerDown' : 'touchstart',
+      touchMove = window.navigator.msPointerEnabled ? 'MSPointerMove' : 'touchmove',
+      touchEnd = window.navigator.msPointerEnabled ? 'MSPointerUp' : 'touchend';
 
     util.addEvent(document, 'keydown', function(event) {
       var direction = map[event.which];
@@ -43,6 +55,49 @@ module.exports = (function() {
         that.emit('move', direction);
         event.preventDefault();
       }
+    });
+
+    var fromx, fromy, tox, toy;
+    var container = document.getElementsByClassName('game-container')[0];
+    util.addEvent(container, touchStart, function(event) {
+      if ((!window.navigator.msPointerEnabled && event.touches.length > 1) || event.targetTouches > 1)
+        return;
+      // if more than one finger
+
+      if (window.navigator.msPointerEnabled) {
+        fromx = event.pageX;
+        fromy = event.pageY;
+      } else {
+        fromx = event.touches[0].clientX;
+        fromy = event.touches[0].clientY;
+      }
+
+      event.preventDefault();
+    });
+
+    util.addEvent(container, touchMove, function(event) {
+      event.preventDefault();
+      return;
+    });
+
+    util.addEvent(container, touchEnd, function(event) {
+      if ((!window.navigator.msPointerEnabled && event.touches.length > 1) || event.targetTouches > 1)
+        return;
+      // if more than one finger
+
+      if (window.navigator.msPointerEnabled) {
+        tox = event.pageX;
+        toy = event.pageY;
+      } else {
+        tox = event.changedTouches[0].clientX;
+        toy = event.changedTouches[0].clientY;
+      }
+
+      var dx = Math.abs(fromx - tox);
+      var dy = Math.abs(fromy - toy);
+      
+      if (Math.max(dx, dy) > 10)
+        that.emit('move', dx > dy ? (tox > fromx ? 2 : 0) : (toy > fromy ? 3 : 1));
     });
 
     var retrys = document.getElementsByClassName('retry');
