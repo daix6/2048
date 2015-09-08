@@ -17,20 +17,25 @@ module.exports = (function() {
     this.handle = new Handle();
     this.layout = new Layout();
     this.best = 0;
+
+    this.aim = 2048;
   }
 
   Game.prototype.init = function() {
-    this.score = 0;
-    this.win = false;
-    this.over = false;
+    var self = this;
 
-    this.grid.setUp();
-    this.layout.render(this);
+    self.score = 0;
+    self.win = false;
+    self.over = false;
 
-    this.handle.on('move', this.move.bind(this));
-    this.handle.on('retry', this.retry.bind(this));
-    this.handle.on('disable', this.disable.bind(this));
-    this.handle.setUp();
+    self.grid.setUp();
+    self.layout.render(this);
+    self.layout.renderScore(0);
+
+    self.handle.on('move', this.move.bind(this));
+    self.handle.on('retry', this.retry.bind(this));
+    self.handle.on('disable', this.disable.bind(this));
+    self.handle.setUp();
   };
 
   Game.prototype.move = function(dir) {
@@ -61,7 +66,7 @@ module.exports = (function() {
             self.grid.insertPawn(mergePawn);
             self.score += mergePawn.value;
 
-            if (mergePawn.value === 128)
+            if (mergePawn.value === self.aim)
               self.win = true;
 
             moved = true;
@@ -76,23 +81,31 @@ module.exports = (function() {
 
     if (moved) {
       self.grid.createPawn();
-    } else if (!moved && self.grid.isFull()) {
+    } else if (!self.grid.canMove()) {
       self.over = true;
     }
     self.layout.render(self);
+    self.layout.renderScore(self.score);
   };
-
 
   Game.prototype.retry = function() {
     var self = this;
-    self.layout.removeResult();
-    self.init();
-  }
 
+    self.score = 0;
+    self.win = false;
+    self.over = false;
+
+    self.layout.removeResult();
+    self.grid.setUp();
+    self.layout.render(this);
+    self.layout.renderScore(0);
+
+    self.handle.on('move', this.move.bind(this));
+  }
 
   Game.prototype.disable = function() {
     var self = this;
-    self.handler.remove('move');
+    self.handle.remove('move');
   }
 
   return Game;

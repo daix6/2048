@@ -47,12 +47,12 @@ module.exports = (function() {
 
     var retrys = document.getElementsByClassName('retry');
     for (var i = 0, len = retrys.length; i < len; i++) {
-      return function(index) {
+      (function(index) {
         util.addEvent(retrys[index], 'click', function(event) {
           that.emit('retry');
           event.preventDefault();
         });
-      }(i);
+      }(i));
     }
   }
 

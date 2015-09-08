@@ -38,6 +38,25 @@ module.exports = (function() {
     return true;
   }
 
+  Grid.prototype.canMove = function() {
+    if (!this.isFull())
+      return true;
+
+    for (var i = 0; i < this.size; i++)
+      for (var j = 0; j < this.size; j++) {
+        if (i < this.size - 1) {
+          if (this.nodes[i][j].value === this.nodes[i+1][j].value)
+            return true;
+        }
+        if (j < this.size - 1) {
+          if (this.nodes[i][j].value === this.nodes[i][j+1].value)
+            return true;
+        }
+      }
+
+    return false;
+  }
+
   Grid.prototype.getPawn = function(x, y) {
     if (!this.isValid(x, y))
       return null;
