@@ -104,9 +104,13 @@ module.exports = (function() {
     for (var i = 0, len = retrys.length; i < len; i++) {
       (function(index) {
         util.addEvent(retrys[index], 'click', function(event) {
-          that.emit('retry');
           event.preventDefault();
+          that.emit('retry');
         });
+        util.addEvent(retrys[index], 'touchend', function(event) {
+          event.preventDefault();
+          that.emit('retry');
+        })
       }(i));
     }
   }

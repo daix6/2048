@@ -59,6 +59,12 @@ gulp.task('javascript', ['eslint'], function() {
     .pipe($.livereload());
 });
 
+gulp.task('assets', function() {
+  return gulp.src('./assets/**/*')
+    .pipe(gulp.dest('./dist/assets'))
+    .pipe($.livereload());
+});
+
 gulp.task('watch', function() {
   $.livereload.listen({ basePath: 'dist' });
   gulp.watch(['./src/jade/**/*.jade'], ['jade']);
@@ -73,7 +79,7 @@ gulp.task('clean', function() {
   ]);
 });
 
-gulp.task('build', ['jade', 'less', 'javascript']);
+gulp.task('build', ['jade', 'less', 'javascript', 'assets']);
 
 function server(done) {
   http.createServer(
