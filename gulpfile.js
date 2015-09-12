@@ -61,7 +61,7 @@ gulp.task('javascript', ['eslint'], function() {
 
 gulp.task('assets', function() {
   return gulp.src('./assets/**/*')
-    .pipe(gulp.dest('./dist/assets'))
+    .pipe(gulp.dest('./dist/'))
     .pipe($.livereload());
 });
 

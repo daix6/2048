@@ -81,7 +81,8 @@ module.exports = (function() {
 
     if (moved) {
       that.grid.createPawn();
-    } else if (!that.grid.canMove()) {
+    }
+    if (!that.grid.canMove()) {
       that.over = true;
     }
     that.layout.render(that);
