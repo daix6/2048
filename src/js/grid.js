@@ -10,13 +10,30 @@ module.exports = (function() {
   }
 
   Grid.prototype.setUp = function() {
+    if (window.localStorage.getItem('nodes')) {
+      var str = window.localStorage.getItem('nodes').split(',');
+      for (var i = 0; i < this.size; i++) {
+        this.nodes[i] = [];
+        for (var j = 0; j < this.size; j++) {
+          var v = str[i * this.size + j];
+          if (v === 'n')
+            this.nodes[i][j] = null;
+          else
+            this.nodes[i][j] = new Pawn(i, j, parseInt(v), this);
+        }
+      }
+    } else {
+      this.clear();
+      this.createPawn();
+    }
+  }
+
+  Grid.prototype.clear = function() {
     for (var i = 0; i < this.size; i++) {
       this.nodes[i] = [];
       for (var j = 0; j < this.size; j++)
         this.nodes[i][j] = null;
     }
-
-    this.createPawn();
   }
 
   Grid.prototype.isValid = function(x, y) {
@@ -136,6 +153,24 @@ module.exports = (function() {
           node.previous = null;
         }
   };
+
+  Grid.prototype.toString = function() {
+    var that = this;
+    var result = '';
+
+    for (var i = 0; i < that.size; i++)
+      for (var j = 0; j < that.size; j++) {
+        if (that.nodes[i][j])
+          result += that.nodes[i][j].value;
+        else
+          result += 'n';
+
+        if (!(i === that.size-1 && i === j))
+          result += ',';
+      }
+
+    return result;
+  }
 
   return Grid;
 

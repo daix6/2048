@@ -12,29 +12,35 @@ module.exports = (function() {
     3: {x: 1, y: 0}
   };
 
-  function Game(Grid, Handle, Layout) {
+  function Game(Grid, Handle, Layout, Store) {
     this.grid = new Grid();
     this.handle = new Handle();
     this.layout = new Layout();
-    this.best = 0;
+    this.store = new Store();
 
     this.aim = 2048;
   }
 
   Game.prototype.init = function() {
     var that = this;
+    
+    if (window.localStorage.getItem('score'))
+      that.score = parseInt(window.localStorage.getItem('score'));
+    else 
+      that.score = 0;
 
-    that.score = 0;
     that.win = false;
     that.over = false;
 
     that.grid.setUp();
-    that.layout.render(this);
-    that.layout.renderScore(0);
+    that.layout.render(that);
+    that.layout.renderScore(that.score);
+    that.layout.renderBest();
 
-    that.handle.on('move', this.move.bind(this));
-    that.handle.on('retry', this.retry.bind(this));
-    that.handle.on('disable', this.disable.bind(this));
+    that.handle.on('move', this.move.bind(that));
+    that.handle.on('retry', this.retry.bind(that));
+    that.handle.on('disable', this.disable.bind(that));
+    that.handle.on('store', this.beforeleave.bind(that));
     that.handle.setUp();
   };
 
@@ -97,16 +103,22 @@ module.exports = (function() {
     that.over = false;
 
     that.layout.removeResult();
-    that.grid.setUp();
-    that.layout.render(this);
+    that.grid.clear();
+    that.grid.createPawn();
+    that.layout.render(that);
     that.layout.renderScore(0);
 
-    that.handle.on('move', this.move.bind(this));
+    that.handle.on('move', this.move.bind(that));
   }
 
   Game.prototype.disable = function() {
     var that = this;
     that.handle.remove('move');
+  }
+
+  Game.prototype.beforeleave = function() {
+    var that = this;
+    that.store.store(that);
   }
 
   return Game;

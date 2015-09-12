@@ -10,7 +10,7 @@
     /* Best Practices */
     "curly": [1, "multi"],
     "dot-notation": 2,
-    "no-alert": 2,
+    "no-alert": 1,
 
     /* Strict Mode */
     "strict": [2, "function"],

@@ -5,9 +5,10 @@ module.exports = (function() {
   var util = require('./util.js');
 
   function Layout() {
-    this.best = 0;
-    this.win = false;
-    this.over = false;
+    if (window.localStorage.getItem('best'))
+      this.best = parseInt(window.localStorage.getItem('best'));
+    else
+      this.best = 0;
   }
 
   Layout.prototype.render = function(game) {

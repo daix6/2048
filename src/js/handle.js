@@ -113,6 +113,10 @@ module.exports = (function() {
         })
       }(i));
     }
+
+    util.addEvent(window, 'beforeunload', function(event) {
+      that.emit('store');
+    });
   }
 
   return Handle;
