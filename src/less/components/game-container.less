@@ -7,7 +7,7 @@
   padding: @padding;
 
   overflow: visible;
-  background-color: #8f7a66;
+  background-color: @bg-color;
 }
 
 .grid, .numbers {
@@ -19,14 +19,14 @@
 .row div {
   float: left;
 
-  width: 125px;
-  height: 125px;
+  width: @pc-grid-width;
+  height: @pc-grid-width;
 
   margin-right: @padding;
   margin-bottom: @padding;
   border-radius: @padding;
 
-  background-color: lighten(#8f7a66, 10%);
+  background-color: lighten(@bg-color, 10%);
 
   &:last-child {
     margin-right: 0;

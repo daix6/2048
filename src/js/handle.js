@@ -96,7 +96,7 @@ module.exports = (function() {
       var dx = Math.abs(fromx - tox);
       var dy = Math.abs(fromy - toy);
       
-      if (Math.max(dx, dy) > 10 && Math.min(dx, dy) < 10)
+      if (Math.max(dx, dy) > 10 && !(Math.min(dx, dy) > 200))
         that.emit('move', dx > dy ? (tox > fromx ? 2 : 0) : (toy > fromy ? 3 : 1));
     });
 
